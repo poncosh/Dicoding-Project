@@ -62,6 +62,7 @@ function addTodo() {
     saveData();
 }
 
+
 function findTodoIndex(todoId) {
     for (const index in todos) {
         if (todos[index].id === todoId) {
