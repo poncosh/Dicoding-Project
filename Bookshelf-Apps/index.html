@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Bookshelf Apps</title>
   <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -16,80 +16,96 @@
     <h1 class="head_bar__title">Bookshelf Apps</h1>
   </header>
   <section class="banner"></section>
-  <main>
-    <section class="bookshelf-pict">
-      <div class="bookshelf-icon">
-        <p class="bicon">Your library one stop solution</p>
-      </div>
-    </section>
-    <section class="container">
-      <section class="input_section">
-        <h2>Masukkan Buku Baru</h2>
-        <form id="inputBook">
-          <div class="input">
-            <label for="inputBookTitle">Judul</label>
-            <input id="inputBookTitle" type="text" required>
-          </div>
-          <div class="input">
-            <label for="inputBookAuthor">Penulis</label>
-            <input id="inputBookAuthor" type="text" required>
-          </div>
-          <div class="input">
-            <label for="inputBookYear">Tahun</label>
-            <input id="inputBookYear" type="number" required>
-          </div>
-          <div class="input_inline">
-            <label for="inputBookIsComplete">Selesai dibaca</label>
-            <input id="inputBookIsComplete" type="checkbox">
-          </div>
-          <button id="bookSubmit" type="submit">Masukkan Buku ke rak <span>Belum selesai dibaca</span></button>
-        </form>
-      </section>
-      
-      <section class="search_section">
-        <h2>Cari Buku (Opsional)</h2>
-        <form id="searchBook">
-          <label for="searchBookTitle">Judul</label>
-          <input id="searchBookTitle" type="text">
-          <button id="searchSubmit" type="submit">Cari</button>
-        </form>
-      </section>
-      
-      <section class="book_shelf">
-        <h2>Belum selesai dibaca</h2>
-        
-        <div id="incompleteBookshelfList" class="book_list">
-    <!--      <article class="book_item">-->
-    <!--        <h3>Book Title</h3>-->
-    <!--        <p>Penulis: John Doe</p>-->
-    <!--        <p>Tahun: 2002</p>-->
-    <!--    -->
-    <!--        <div class="action">-->
-    <!--          <button class="green">Selesai dibaca</button>-->
-    <!--          <button class="red">Hapus buku</button>-->
-    <!--        </div>-->
-    <!--      </article>-->
+  <div>
+    <div class="container-1">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+        <path fill="#000000" fill-opacity="1" d="M0,128L40,117.3C80,107,160,85,240,64C320,43,400,21,480,26.7C560,32,640,64,720,106.7C800,149,880,203,960,197.3C1040,192,1120,128,1200,106.7C1280,85,1360,107,1400,117.3L1440,128L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"></path>
+      </svg>
+    </div>
+    <div class="container-2">
+      <h1>BookShelf.</h1>
+      <p>Accomodate your needs of knowledge</p>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+        <path fill="#ffffff" fill-opacity="1" d="M0,128L40,117.3C80,107,160,85,240,64C320,43,400,21,480,26.7C560,32,640,64,720,106.7C800,149,880,203,960,197.3C1040,192,1120,128,1200,106.7C1280,85,1360,107,1400,117.3L1440,128L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"></path>
+      </svg>
+    </div>
+  </div>
+  <div class="main">
+    <main>
+      <section class="bookshelf-pict">
+        <div class="bookshelf-icon">
+          <p class="bicon">Your library one stop solution</p>
         </div>
       </section>
-      
-      <section class="book_shelf">
-        <h2>Selesai dibaca</h2>
+      <section class="main-container">
+        <section class="input_section">
+          <h2>Input New Book</h2>
+          <form id="inputBook">
+            <div class="input">
+              <label for="inputBookTitle">Title</label>
+              <input id="inputBookTitle" type="text" required>
+            </div>
+            <div class="input">
+              <label for="inputBookAuthor">Author</label>
+              <input id="inputBookAuthor" type="text" required>
+            </div>
+            <div class="input">
+              <label for="inputBookYear">Book Year</label>
+              <input id="inputBookYear" type="number" required>
+            </div>
+            <div class="input_inline">
+              <label for="inputBookIsComplete">Already Read</label>
+              <input id="inputBookIsComplete" type="checkbox">
+            </div>
+            <button id="bookSubmit" type="submit">Input the book to <span>not yead read</span> shelf</button>
+          </form>
+        </section>
         
-        <div id="completeBookshelfList" class="book_list">
-    <!--      <article class="book_item">-->
-    <!--        <h3>Book Title</h3>-->
-    <!--        <p>Penulis: John Doe</p>-->
-    <!--        <p>Tahun: 2002</p>-->
-    <!--        -->
-    <!--        <div class="action">-->
-    <!--          <button class="green">Belum selesai di Baca</button>-->
-    <!--          <button class="red">Hapus buku</button>-->
-    <!--        </div>-->
-    <!--      </article>-->
-        </div>
+        <section class="search_section">
+          <h2>Find Books (Optional)</h2>
+          <form id="searchBook">
+            <label for="searchBookTitle">Judul</label>
+            <input id="searchBookTitle" type="text">
+            <button id="searchSubmit" type="submit">Cari</button>
+          </form>
+        </section>
+        
+        <section class="book_shelf">
+          <h2>Not Yet Read</h2>
+          
+          <div id="incompleteBookshelfList" class="book_list">
+           <!-- <article class="book_item">
+             <h3>Book Title</h3>
+             <p>Penulis: John Doe</p>
+             <p>Tahun: 2002</p>
+        
+             <div class="action">
+               <button class="green">Already Read</button>
+               <button class="red">Delete Book</button>
+             </div>
+           </article> -->
+          </div>
+        </section>
+        
+        <section class="book_shelf">
+          <h2>Already Read</h2>
+          
+          <div id="completeBookshelfList" class="book_list">
+           <!-- <article class="book_item">
+             <h3>Book Title</h3>
+             <p>Penulis: John Doe</p>
+             <p>Tahun: 2002</p>
+            
+             <div class="action">
+               <button class="green">Not Yet Read</button>
+               <button class="red">Delete Book</button>
+             </div>
+           </article> -->
+          </div>
+        </section>
       </section>
-    </section>
-  </main>
+    </main>
+  </div>
   <footer>
     <div class="logo-porto">
       <a href="#" id="logo">

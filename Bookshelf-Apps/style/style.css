@@ -1,14 +1,15 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
 }
 
 body {
-    background-color: black;
+    background-color: white;
     display: flex;
     flex-direction: column;
 }
@@ -27,16 +28,52 @@ input, button {
     align-items: center;
     justify-content: center;
     transition: 0.6s;
-    background-color: rgb(181, 145, 5);
-    color: white;
+    background-color: white;
+    color: #000000;
     z-index: 100000;
+    border-bottom: 0.5px solid black;
+    font-family: 'Poppins', sans-serif;
+}
+
+body > div > .container-1,
+body > div > .container-2 {
+    font-family: 'Playfair Display', sans-serif;
+}
+
+body > div > .container-1 {
+    background-color: #ffffff;
+    margin: 0;
+}
+
+body > div > .container-1 > svg {
+    display: block;
+}
+
+body > div > .container-2 {
+    background: black;
+    color: white;
+    text-align: center;
+    margin: 0 0 -90px 0;
+}
+
+body > div > .container-2 > h1 {
+    font-size: 6rem;
+    margin-top: -7rem;
+}
+
+body > div > .container-2 > p {
+    font-size: 1.3rem;
+    margin: 0 5rem 0 5rem;
+}
+
+body > div > .container-2 > svg {
+    display: block;
 }
 
 main {
     display: flex;
     flex-direction: row;
     width: 80%;
-    margin-top: 100px !important;
     margin: 0 auto;
     padding: 16px;
 }
@@ -60,24 +97,27 @@ main {
     color: white;
     padding: 100px;
     text-align: center;
+    border-radius: 20px;
 }
 
 .bookshelf-pict > .bookshelf-icon > .bicon {
-    font-size: 1.3em;
+    font-size: 2rem;
     font-weight: bold;
+    font-family: 'Playfair Display', sans-serif;
 }
 
-.container {
+.main-container {
     flex: 0.85
 }
 
 .input_section {
     display: flex;
     flex-direction: column;
-    padding: 16px;
-    border: 1px solid black;
+    padding: 16px;;
     border-radius: 10px;
-    background-image: linear-gradient(#EC8018, #A2890C);
+    background-color: #ffffff;
+    font-family: 'Open Sans', sans-serif;
+    border: 1px solid black;
 }
 
 .input_section > h2 {
@@ -140,9 +180,10 @@ main {
     flex-direction: column;
     align-items: center;
     padding: 16px;
-    border: 1px solid black;
     border-radius: 10px;
-    background-image: linear-gradient(#EC8018, #A2890C);
+    background-color: #ffffff;
+    font-family: 'Open Sans', sans-serif;
+    border: 1px solid black;
 }
 
 .search_section > h2 {
@@ -182,10 +223,11 @@ main {
 
 .book_shelf {
     margin: 16px 0 0 0;
-    border: 1px solid black;
-    padding: 16px;
+    padding: 16px 16px 32px 16px;
     border-radius: 10px;
-    background-image: linear-gradient(#EC8018, #A2890C);
+    background-color: #ffffff;
+    font-family: 'Open Sans', sans-serif;
+    border: 1px solid black;
 }
 
 .book_shelf > h2 {
@@ -196,18 +238,19 @@ main {
     padding: 16px;
 }
 
-.book_shelf > .book_list > .book_item {
+.book_shelf > .book_list > article {
     padding: 8px 16px 16px 16px;
-    border: 1px solid black;
     border-radius: 5px;
     margin: 10px 0;
+    border: 1px solid black;
 }
 
-.book_shelf > .book_list > .book_item > h3, p {
+.book_shelf > .book_list > article > div > h3,
+.book_shelf > .book_list > article > div > p {
     margin: 8px 0;
 }
 
-.book_shelf > .book_list > .book_item > .action > button {
+.book_shelf > .book_list > article > div > div.action > button {
     border: 0;
     padding: 5px;
     margin: 0 5px 0 0;
@@ -215,22 +258,23 @@ main {
     cursor: pointer;
     transition: 0.6s;
 }
-.book_shelf > .book_list > .book_item > .action > button:hover {
+.book_shelf > .book_list > article > div > div.action > button:hover {
     transform: scale(1.02);
 }
 
-.book_shelf > .book_list > .book_item > .action > .green {
+.book_shelf > .book_list > article > div > div.action > .green {
     background-color: darkgreen;
     color: white;
+    margin-right: 10px;
 }
 
-.book_shelf > .book_list > .book_item > .action > .red {
+.book_shelf > .book_list > article > div > div.action > .red {
     background-color: darkred;
     color: white;
 }
 
 footer {
-    background-color: rgb(181, 145, 5);
+    background-color: #000000;
     display: flex;
     width: 100%;
     justify-content: center;
@@ -238,6 +282,7 @@ footer {
     z-index: 100000;
     position: relative;
     padding: 20px 0 20px 0;
+    font-family: 'Poppins', sans-serif;
 }
 
 a {
@@ -246,56 +291,4 @@ a {
     font-weight: 1.9rem;
     letter-spacing: 1px;
     position: relative;
-}
-
-.check-button {
-    width: 40px;
-    height: 40px;
-
-    background: url('../assets/check-outline.svg');
-    background-size: contain;
-    margin-left: auto;
-    cursor: pointer;
-    border: none;
-}
-
-.check-button:hover {
-    background: url('../assets/check-solid.svg');
-    background-size: contain;
-}
-
-.trash-button {
-    width: 40px;
-    height: 40px;
-
-    background: url('../assets/trash-outline.svg');
-    background-size: contain;
-    margin-left: 16px;
-    cursor: pointer;
-    border: none;
-}
-
-.trash-button:hover {
-    background: url('../assets/trash-fill.svg');
-    background-size: contain;
-}
-
-.undo-button {
-    width: 40px;
-    height: 40px;
-
-    background: url('../assets/undo-ouline.svg');
-    background-size: contain;
-    margin-left: auto;
-    cursor: pointer;
-    border: none;
-}
-
-.undo-button:hover {
-    background: url('../assets/undo-ouline.svg');
-    background-size: contain;
-}
-
-.check-button:focus, .trash-button {
-    outline: none;
 }

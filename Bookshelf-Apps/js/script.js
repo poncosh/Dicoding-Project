@@ -48,7 +48,7 @@ function loadDataFromStorage() {
         }
     }
    
-    document.dispatchEvent(new Event(RENDER_EVENT));
+    document.dispatchEvent(new Event(RENDER_BOOKS));
 }
 
 function findBooks(bookId) {
@@ -70,7 +70,7 @@ function addBooks() {
     bookshelves.push(booksObject);
 
     document.dispatchEvent(new Event(RENDER_BOOKS));
-    saveData();
+    console.log(bookshelves)
 }
 
 function findBooksIndex(bookId) {
@@ -82,16 +82,6 @@ function findBooksIndex(bookId) {
     return -1;
 }
 
-function addBookToCompleted(bookId) {
-    const bookTarget = findBooks(bookId);
-
-    if (bookTarget == null) return;
-
-    bookTarget.isComplete = true;
-    document.dispatchEvent(new Event(RENDER_BOOKS));
-    saveData();
-}
-
 function removeBooksFromCompleted(bookId) {
     const bookTarget = findBooksIndex(bookId);
 
@@ -99,104 +89,107 @@ function removeBooksFromCompleted(bookId) {
 
     bookshelves.splice(bookTarget, 1);
     document.dispatchEvent(new Event(RENDER_BOOKS));
-    saveData();
 }
 
-function undoBooksTaskFromCompleted(bookId) {
+function undoBooksFromCompleted(bookId) {
     const bookTarget = findBooks(bookId);
 
     if (bookTarget == null) return;
 
     bookTarget.isComplete = false;
-    document.dispatchEvent(new Event(RENDER_BOOKS));
-    saveData();
+    document.dispatchEvent(new Event(RENDER_BOOKS))
 }
 
-function makeBookshelves(booksObject) {
-    const bookTitle = document.createElement('h2');
-    bookTitle.innerText = booksObject.title;
+document.addEventListener("change", function() {
+    const bookIsReaded = document.getElementById('inputBookIsComplete');
+    const submitBook = document.getElementById('bookSubmit');
+    
+    if (bookIsReaded.checked) {
+        submitBook.innerHTML = `Input the book to <span>already read</span> shelf`
+    } else {
+        submitBook.innerHTML = `Input the book to <span>not yead read</span> shelf`
+    }
+})
 
-    const bookAuthor = document.createElement('h2');
-    bookAuthor.innerText = booksObject.author;
+function makeBooks(bookObject) {
+    const undo = 'Not Yet Read';
+    const alreadyRead = 'Already Read'
+    const deletes = 'Delete Book'
 
-    const bookYear = document.createElement('h2');
-    bookYear.innerText = booksObject.year;
+    const bookTitle = document.createElement('h3');
+    bookTitle.innerText = bookObject.title;
+
+    const bookAuthor = document.createElement('p');
+    bookAuthor.innerText = bookObject.author;
+
+    const bookYear = document.createElement('p');
+    bookYear.innerText = bookObject.year;
 
     const bookContainer = document.createElement('div');
-    bookContainer.classList.add('inner');
+    bookContainer.setAttribute('id', `book-${bookObject.id}`);
     bookContainer.append(bookTitle, bookAuthor, bookYear);
 
-    const container = document.createElement('div');
-    container.classList.add('item', 'shadow');
+    const container = document.createElement('article');
+    container.classList.add('book-item');
     container.append(bookContainer);
-    container.setAttribute('id', `books-${booksObject.id}`);
+    
+    if (bookObject.isComplete) {
+        const actionDiv = document.createElement('div');
+        actionDiv.classList.add('action');
 
-    if (booksObject.isComplete) {
         const undoButton = document.createElement('button');
-        undoButton.classList.add('undo-button');
+        undoButton.classList.add('green');
+        undoButton.innerHTML = undo;
 
         undoButton.addEventListener('click', function () {
-            undoBooksTaskFromCompleted(booksObject.id);
+            undoBooksFromCompleted(bookObject.id);
         });
 
-        const trashButton = document.createElement('button');
-        trashButton.classList.add('trash-button');
+        const deleteButton = document.createElement('button');
+        deleteButton.classList.add('red');
+        deleteButton.innerHTML = deletes;
 
-        trashButton.addEventListener('click', function () {
-            removeBooksFromCompleted(booksObject.id);
+        deleteButton.addEventListener('click', function () {
+            removeBooksFromCompleted(bookObject.id);
         });
 
-        container.append(undoButton, trashButton);
+        actionDiv.append(undoButton, deleteButton)
+        bookContainer.append(actionDiv);
     } else {
-        const checkButton = document.createElement('button');
-        checkButton.classList.add('check-button');
+        const actionDiv = document.createElement('div');
+        actionDiv.classList.add('action');
 
-        checkButton.addEventListener('click', function () {
-            addBookToCompleted(booksObject.id);
+        const alreadyButton = document.createElement('button');
+        alreadyButton.classList.add('green');
+        alreadyButton.innerHTML = alreadyRead;
+
+        alreadyButton.addEventListener('click', function () {
+            addBooksToCompleted(bookObject.id);
         });
 
-        container.append(checkButton);
+        const deleteButton = document.createElement('button');
+        deleteButton.classList.add('red');
+        deleteButton.innerHTML = deletes;
+
+        deleteButton.addEventListener('click', function () {
+            removeBooksFromCompleted(bookObject.id);
+        });
+
+        actionDiv.append(alreadyButton, deleteButton)
+        bookContainer.append(actionDiv);
     }
 
     return container;
 }
 
-document.addEventListener(RENDER_BOOKS, function () {
-    //console.log(todos);
-    const uncompleteBOOKSList = document.getElementById('incompleteBookshelfList');
-    uncompleteBOOKSList.innerHTML = '';
+function addBooksToCompleted (bookId) {
+    const bookTarget = findBooks(bookId);
 
-    const completedBOOKSList = document.getElementById('completeBookshelfList');
-    completedBOOKSList.innerHTML = '';
+    if (bookTarget == null) return;
 
-    for (const bookItem of bookshelves) {
-        const bookElement = makeBookshelves(bookItem);
-        if (!bookItem.isComplete) {
-            uncompleteBOOKSList.append(bookElement);
-        } else {
-            completedBOOKSList.append(bookElement);
-        }
-    }
-});
-
-document.addEventListener(RENDER_BOOKS, function () {
-    const uncompletedBOOKSList = document.getElementById('incompleteBookshelfList');
-    const listCompleted = document.getElementById('completeBookshelfList');
-  
-    // clearing list item
-    uncompletedBOOKSList.innerHTML = '';
-    listCompleted.innerHTML = '';
-  
-    for (const bookItem of bookshelves) {
-      const todoElement = makeBookshelves(bookItem);
-      if (bookItem.isComplete) {
-        listCompleted.append(bookElement);
-      } else {
-        uncompletedBOOKSList.append(bookElement);
-      }
-    }
-});
-
+    bookTarget.isComplete = true;
+    document.dispatchEvent(new Event(RENDER_BOOKS));
+}
 document.addEventListener('DOMContentLoaded', function () {
 
     const submitForm /* HTMLFormElement */ = document.getElementById('inputBook');
@@ -211,6 +204,39 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-document.addEventListener(SAVED_BOOKS, () => {
-    console.log("Data berhasil disimpan");
-})
+document.addEventListener(RENDER_BOOKS, function () {
+
+    const uncompleteBOOKSList = document.getElementById('incompleteBookshelfList');
+    uncompleteBOOKSList.innerHTML = '';
+
+    const completedBOOKSList = document.getElementById('completeBookshelfList');
+    completedBOOKSList.innerHTML = '';
+
+    for (const bookItem of bookshelves) {
+        const bookElement = makeBooks(bookItem);
+        if(!bookItem.isComplete) {
+            uncompleteBOOKSList.append(bookElement);
+        } else {
+            completedBOOKSList.append(bookElement);
+        }
+    }
+
+});
+
+document.addEventListener(RENDER_BOOKS, function () {
+    const uncompleteBOOKSList = document.getElementById('incompleteBookshelfList');
+    const completedBOOKSList = document.getElementById('completeBookshelfList');
+
+    uncompleteBOOKSList.innerHTML = '';
+    completedBOOKSList.innerHTML = '';
+
+    for (const bookItem of bookshelves) {
+        const bookElement = makeBooks(bookItem);
+        if(bookItem.isComplete) {
+            completedBOOKSList.append(bookElement);
+        } else {
+            uncompleteBOOKSList.append(bookElement);
+        }
+    }
+
+});
