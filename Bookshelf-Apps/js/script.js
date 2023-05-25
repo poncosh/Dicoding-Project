@@ -118,7 +118,7 @@ document.addEventListener("change", function() {
     if (bookIsReaded.checked) {
         submitBook.innerHTML = `Input the book to <span>already read</span> shelf`
     } else {
-        submitBook.innerHTML = `Input the book to <span>not yead read</span> shelf`
+        submitBook.innerHTML = `Input the book to <span>not yet read</span> shelf`
     }
 })
 
