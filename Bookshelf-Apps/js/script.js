@@ -203,6 +203,13 @@ function makeBooks(bookObject) {
     return container;
 }
 
+try
+{
+}
+catch(e)
+{
+}
+
 function addBooksToCompleted (bookId) {
     const bookTarget = findBooks(bookId);
 
@@ -233,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function () {
         for (const index in bookshelves) {
             let flag = false
             for (const bookspell in bookshelves[index].title) {
-                if (bookshelves[index].title[bookspell].toUpperCase() === bookName[bookspell].toUpperCase()) {
+                if ((bookshelves[index].title[bookspell]).toLowerCase() === (bookName[bookspell]).toLowerCase()) {
                     flag = true;
                     console.log(`Searching ${bookshelves[index].title}...`);
                     break;
@@ -291,5 +298,4 @@ document.addEventListener(RENDER_BOOKS, function () {
             uncompleteBOOKSList.append(bookElement);
         }
     }
-
 });
