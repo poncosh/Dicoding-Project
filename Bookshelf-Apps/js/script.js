@@ -153,9 +153,6 @@ function makeBooks(bookObject) {
             container.style.width = "100%"
         })
     );
-    
-    const popUpDialog = document.getElementById('overlayBox');
-    const bookDialog = document.getElementsByClassName('modal-box')
 
     if (bookObject.isComplete) {
         const actionDiv = document.createElement('div');
