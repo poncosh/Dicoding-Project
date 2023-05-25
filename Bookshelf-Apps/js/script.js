@@ -66,11 +66,20 @@ function addBooks() {
     const bookYear = document.getElementById('inputBookYear').value;
 
     const generatedID = generateId();
-    const booksObject = generateBookshelfObject(generatedID, bookTitle, bookAuthor, bookYear, false);
-    bookshelves.push(booksObject);
+    const bookIsReaded = document.getElementById('inputBookIsComplete');
+    
+    if (bookIsReaded.checked) {
+        const booksObject = generateBookshelfObject(generatedID, bookTitle, bookAuthor, bookYear, true);
+
+        bookshelves.push(booksObject);
+    } else {
+        const booksObject = generateBookshelfObject(generatedID, bookTitle, bookAuthor, bookYear, false);
+
+        bookshelves.push(booksObject);
+    }
 
     document.dispatchEvent(new Event(RENDER_BOOKS));
-    console.log(bookshelves)
+    saveData();
 }
 
 function findBooksIndex(bookId) {
@@ -89,6 +98,7 @@ function removeBooksFromCompleted(bookId) {
 
     bookshelves.splice(bookTarget, 1);
     document.dispatchEvent(new Event(RENDER_BOOKS));
+    saveData();
 }
 
 function undoBooksFromCompleted(bookId) {
@@ -97,7 +107,8 @@ function undoBooksFromCompleted(bookId) {
     if (bookTarget == null) return;
 
     bookTarget.isComplete = false;
-    document.dispatchEvent(new Event(RENDER_BOOKS))
+    document.dispatchEvent(new Event(RENDER_BOOKS));
+    saveData();
 }
 
 document.addEventListener("change", function() {
@@ -110,6 +121,7 @@ document.addEventListener("change", function() {
         submitBook.innerHTML = `Input the book to <span>not yead read</span> shelf`
     }
 })
+
 
 function makeBooks(bookObject) {
     const undo = 'Not Yet Read';
@@ -131,8 +143,20 @@ function makeBooks(bookObject) {
 
     const container = document.createElement('article');
     container.classList.add('book-item');
+    container.style.boxShadow = "0 5px 10px rgba(0, 0, 0, 0.07), 0 15px 40px rgba(0, 0, 0, 0.07)"
+    container.style.width = "100.6%"
+    container.style.transition = "1s"
     container.append(bookContainer);
+    requestAnimationFrame(() =>
+        setTimeout(() => {
+            container.style.boxShadow = "0 5px 10px rgba(0, 0, 0, 0.2), 0 15px 40px rgba(0, 0, 0, 0.2)"
+            container.style.width = "100%"
+        })
+    );
     
+    const popUpDialog = document.getElementById('overlayBox');
+    const bookDialog = document.getElementsByClassName('modal-box')
+
     if (bookObject.isComplete) {
         const actionDiv = document.createElement('div');
         actionDiv.classList.add('action');
@@ -150,7 +174,7 @@ function makeBooks(bookObject) {
         deleteButton.innerHTML = deletes;
 
         deleteButton.addEventListener('click', function () {
-            removeBooksFromCompleted(bookObject.id);
+            removeBooksFromCompleted(bookObject.id)
         });
 
         actionDiv.append(undoButton, deleteButton)
@@ -189,10 +213,13 @@ function addBooksToCompleted (bookId) {
 
     bookTarget.isComplete = true;
     document.dispatchEvent(new Event(RENDER_BOOKS));
+    saveData();
 }
+
 document.addEventListener('DOMContentLoaded', function () {
 
     const submitForm /* HTMLFormElement */ = document.getElementById('inputBook');
+    const searchButton = document.getElementById('searchBook');
   
     submitForm.addEventListener('submit', function (event) {
       event.preventDefault();
@@ -202,6 +229,36 @@ document.addEventListener('DOMContentLoaded', function () {
     if (isStorageExist()) {
       loadDataFromStorage();
     }
+
+    searchButton.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const bookName = document.getElementById('searchBookTitle').value;
+        for (const index in bookshelves) {
+            let flag = false
+            for (const bookspell in bookshelves[index].title) {
+                if (bookshelves[index].title[bookspell].toUpperCase() === bookName[bookspell].toUpperCase()) {
+                    flag = true;
+                    console.log(`Searching ${bookshelves[index].title}...`);
+                    break;
+                };
+            }
+            if (flag) {
+                const bookTarget = bookshelves[index].id;
+
+                if (bookTarget === -1) return;
+
+                let bookIs = document.getElementById(`book-${bookTarget}`);
+                let headerOffset = 100;
+                let bookPosition = bookIs.getBoundingClientRect().top;
+                let offsetPosition = bookPosition + window.pageYOffset - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth",
+                })
+            }
+        }
+    });
 });
 
 document.addEventListener(RENDER_BOOKS, function () {
@@ -220,7 +277,6 @@ document.addEventListener(RENDER_BOOKS, function () {
             completedBOOKSList.append(bookElement);
         }
     }
-
 });
 
 document.addEventListener(RENDER_BOOKS, function () {

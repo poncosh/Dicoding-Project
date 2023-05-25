@@ -31,7 +31,7 @@ input, button {
     background-color: white;
     color: #000000;
     z-index: 100000;
-    border-bottom: 0.5px solid black;
+    box-shadow: 0 5px 10px rgba(154, 160, 185, .05), 0 15px 40px rgba(166, 173, 201, .2);
     font-family: 'Poppins', sans-serif;
 }
 
@@ -117,7 +117,7 @@ main {
     border-radius: 10px;
     background-color: #ffffff;
     font-family: 'Open Sans', sans-serif;
-    border: 1px solid black;
+    box-shadow: 0 5px 10px rgba(154, 160, 185, .05), 0 15px 40px rgba(166, 173, 201, .2);
 }
 
 .input_section > h2 {
@@ -183,7 +183,7 @@ main {
     border-radius: 10px;
     background-color: #ffffff;
     font-family: 'Open Sans', sans-serif;
-    border: 1px solid black;
+    box-shadow: 0 5px 10px rgba(154, 160, 185, .05), 0 15px 40px rgba(166, 173, 201, .2);
 }
 
 .search_section > h2 {
@@ -227,7 +227,7 @@ main {
     border-radius: 10px;
     background-color: #ffffff;
     font-family: 'Open Sans', sans-serif;
-    border: 1px solid black;
+    box-shadow: 0 5px 10px rgba(154, 160, 185, .05), 0 15px 40px rgba(166, 173, 201, .2);
 }
 
 .book_shelf > h2 {
@@ -240,9 +240,8 @@ main {
 
 .book_shelf > .book_list > article {
     padding: 8px 16px 16px 16px;
-    border-radius: 5px;
+    border-radius: 10px;
     margin: 10px 0;
-    border: 1px solid black;
 }
 
 .book_shelf > .book_list > article > div > h3,
@@ -266,11 +265,13 @@ main {
     background-color: darkgreen;
     color: white;
     margin-right: 10px;
+    box-shadow: 0 5px 10px rgba(154, 160, 185, .2), 0 15px 40px rgba(166, 173, 201, .2);
 }
 
 .book_shelf > .book_list > article > div > div.action > .red {
     background-color: darkred;
     color: white;
+    box-shadow: 0 5px 10px rgba(154, 160, 185, .2), 0 15px 40px rgba(166, 173, 201, .2);
 }
 
 footer {
