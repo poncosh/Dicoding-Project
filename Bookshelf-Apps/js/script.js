@@ -138,11 +138,13 @@ function makeBooks(bookObject) {
     bookYear.innerText = bookObject.year;
 
     const bookContainer = document.createElement('div');
-    bookContainer.setAttribute('id', `book-${bookObject.id}`);
+    bookContainer.classList.add(`book-${bookObject.id}`);
     bookContainer.append(bookTitle, bookAuthor, bookYear);
 
     const container = document.createElement('article');
+    container.setAttribute('id', `book-${bookObject.title}`);
     container.classList.add('book-item');
+    container.classList.add('active');
     container.style.boxShadow = "0 5px 10px rgba(0, 0, 0, 0.07), 0 15px 40px rgba(0, 0, 0, 0.07)"
     container.style.width = "100.6%"
     container.style.transition = "1s"
@@ -203,12 +205,7 @@ function makeBooks(bookObject) {
     return container;
 }
 
-try
-{
-}
-catch(e)
-{
-}
+
 
 function addBooksToCompleted (bookId) {
     const bookTarget = findBooks(bookId);
@@ -237,31 +234,68 @@ document.addEventListener('DOMContentLoaded', function () {
     searchButton.addEventListener('submit', function(event) {
         event.preventDefault();
         const bookName = document.getElementById('searchBookTitle').value;
-        for (const index in bookshelves) {
-            let flag = false
-            for (const bookspell in bookshelves[index].title) {
-                if ((bookshelves[index].title[bookspell]).toLowerCase() === (bookName[bookspell]).toLowerCase()) {
-                    flag = true;
-                    console.log(`Searching ${bookshelves[index].title}...`);
-                    break;
-                };
-            }
-            if (flag) {
-                const bookTarget = bookshelves[index].id;
+        let bookIs = [];
 
-                if (bookTarget === -1) return;
-
-                let bookIs = document.getElementById(`book-${bookTarget}`);
-                let headerOffset = 100;
-                let bookPosition = bookIs.getBoundingClientRect().top;
-                let offsetPosition = bookPosition + window.pageYOffset - headerOffset;
-
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: "smooth",
-                })
-            }
+        if (!bookName) {
+            const notBook = document.querySelectorAll('article');
+            notBook.forEach(article => {
+                article.classList.remove('inactive');
+                article.classList.add('active');
+            })
+        } else {
+            for (const index in bookshelves) {
+                if (!bookName) {
+                    const notBook = document.querySelectorAll('article');
+                    notBook.forEach(article => {
+                        article.classList.remove('active');
+                        article.classList.add('inactive');
+                    })
+                } else if (bookshelves[index].title.toLowerCase().match(...bookName.toLowerCase())) {
+                    const notBook = document.querySelectorAll('article');
+                    // console.log(notBook)
+                    notBook.forEach(article => {
+                        article.classList.remove('active');
+                        article.classList.add('inactive');
+                    })
+                    
+                    const isBook = document.getElementById(`book-${bookshelves[index].title}`);
+                    // console.log(isBook)
+                    bookIs.push(isBook)
+                    // console.log(isBook)
+                    // isBook.forEach(book => {
+                    //     book.classList.remove('inactive');
+                    //     book.classList.add('active');
+                    // })
+                } else {
+                    const notBook = document.querySelectorAll('article');
+                    notBook.forEach(article => {
+                        article.classList.remove('active');
+                        article.classList.add('inactive');
+                    })
+                }
+            } 
         }
+        // console.log(bookIs)
+        for (let i = 0; i < bookIs.length; i++) {
+                bookIs[i].classList.add('active');
+                bookIs[i].classList.remove('inactive');
+        }
+
+        const bookPosition = bookIs[0];
+        const headerOffset = 100;
+        const bookOffset = bookPosition.getBoundingClientRect().top;
+        const offsetPosition = bookOffset + window.pageYOffset - headerOffset;
+
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+        })
+        // bookPosition.scrollIntoView({
+        //     top: bookPosition + 100,
+        //     behavior: "smooth"
+        // })
+        console.log(`searching ${bookName}...`)
+        
     });
 });
 
