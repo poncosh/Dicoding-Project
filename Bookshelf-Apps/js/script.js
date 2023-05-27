@@ -12,10 +12,11 @@ function generateId () {
     return +new Date();
 }
 
-function generateBookshelfObject(id, title, author, year, isComplete) {
+function generateBookshelfObject(id, title, bookClass, author, year, isComplete) {
     return {
         id,
         title,
+        bookClass,
         author,
         year,
         isComplete
@@ -62,6 +63,7 @@ function findBooks(bookId) {
 
 function addBooks() {
     const bookTitle = document.getElementById('inputBookTitle').value;
+    const bookClass = bookTitle.replace(/\s+/g, '')
     const bookAuthor = document.getElementById('inputBookAuthor').value;
     const bookYear = document.getElementById('inputBookYear').value;
 
@@ -69,11 +71,11 @@ function addBooks() {
     const bookIsReaded = document.getElementById('inputBookIsComplete');
     
     if (bookIsReaded.checked) {
-        const booksObject = generateBookshelfObject(generatedID, bookTitle, bookAuthor, bookYear, true);
+        const booksObject = generateBookshelfObject(generatedID, bookTitle, bookClass, bookAuthor, bookYear, true);
 
         bookshelves.push(booksObject);
     } else {
-        const booksObject = generateBookshelfObject(generatedID, bookTitle, bookAuthor, bookYear, false);
+        const booksObject = generateBookshelfObject(generatedID, bookTitle, bookClass, bookAuthor, bookYear, false);
 
         bookshelves.push(booksObject);
     }
@@ -142,7 +144,7 @@ function makeBooks(bookObject) {
     bookContainer.append(bookTitle, bookAuthor, bookYear);
 
     const container = document.createElement('article');
-    container.setAttribute('id', `book-${bookObject.title}`);
+    container.setAttribute('id', `book-${bookObject.bookClass}`);
     container.classList.add('book-item');
     container.classList.add('active');
     container.style.boxShadow = "0 5px 10px rgba(0, 0, 0, 0.07), 0 15px 40px rgba(0, 0, 0, 0.07)"
@@ -242,30 +244,28 @@ document.addEventListener('DOMContentLoaded', function () {
                 article.classList.remove('inactive');
                 article.classList.add('active');
             })
-        } else {
+        } else if (bookName) {
             for (const index in bookshelves) {
-                if (!bookName) {
+                if (!bookshelves[index].title.toLowerCase().match(bookName.toLowerCase())) {
                     const notBook = document.querySelectorAll('article');
                     notBook.forEach(article => {
                         article.classList.remove('active');
                         article.classList.add('inactive');
                     })
-                } else if (bookshelves[index].title.toLowerCase().match(...bookName.toLowerCase())) {
+
+                } else if (bookshelves[index].title.toLowerCase().match(bookName.toLowerCase())) {
                     const notBook = document.querySelectorAll('article');
-                    // console.log(notBook)
+
                     notBook.forEach(article => {
                         article.classList.remove('active');
                         article.classList.add('inactive');
                     })
                     
-                    const isBook = document.getElementById(`book-${bookshelves[index].title}`);
-                    // console.log(isBook)
+
+                    const isBook = document.querySelectorAll(`[id=book-${bookshelves[index].bookClass}]`);
+
                     bookIs.push(isBook)
-                    // console.log(isBook)
-                    // isBook.forEach(book => {
-                    //     book.classList.remove('inactive');
-                    //     book.classList.add('active');
-                    // })
+                    
                 } else {
                     const notBook = document.querySelectorAll('article');
                     notBook.forEach(article => {
@@ -275,27 +275,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             } 
         }
-        // console.log(bookIs)
+
         for (let i = 0; i < bookIs.length; i++) {
-                bookIs[i].classList.add('active');
-                bookIs[i].classList.remove('inactive');
+            for (let j = 0; j < bookIs[i].length; j++) {
+                bookIs[i][j].classList.add('active');
+                bookIs[i][j].classList.remove('inactive');
+            }   
         }
 
-        const bookPosition = bookIs[0];
-        const headerOffset = 100;
-        const bookOffset = bookPosition.getBoundingClientRect().top;
-        const offsetPosition = bookOffset + window.pageYOffset - headerOffset;
-
-        window.scrollTo({
-            top: offsetPosition,
-            behavior: "smooth"
-        })
-        // bookPosition.scrollIntoView({
-        //     top: bookPosition + 100,
-        //     behavior: "smooth"
-        // })
         console.log(`searching ${bookName}...`)
-        
     });
 });
 
