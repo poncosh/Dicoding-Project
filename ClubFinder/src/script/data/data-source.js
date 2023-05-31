@@ -1,16 +1,24 @@
-function DataSource(onSuccess, onFailed) {
-  this.onSuccess = onSuccess;
-  this.onFailed = onFailed;
+import clubs from './clubs.js'
+
+class DataSource {
+  constructor() {
+    this.promise = null;
+  }
+
+  static searchClub(keyword) {
+    this.promise = new Promise((onSuccess, onFailed) => {
+      const filteredClubs = clubs.filter(club => club.name.toUpperCase().includes(keyword.toUpperCase()));
+  
+    if (filteredClubs.length) {
+      onSuccess(filteredClubs);
+    } else {
+      onFailed(`${keyword} is not found`);
+    }
+    })
+
+    return this.promise;
+  };
 }
 
-DataSource.prototype.searchClub = function (keyword) {
-  const filteredClubs = clubs.filter(function (club) {
-    return club.name.toUpperCase().includes(keyword.toUpperCase());
-  });
-
-  if (filteredClubs.length) {
-    this.onSuccess(filteredClubs);
-  } else {
-    this.onFailed(keyword + ' is not found');
-  }
-};
+export default DataSource;
+// console.log(DataSource.searchClub('Blaugrana'))
