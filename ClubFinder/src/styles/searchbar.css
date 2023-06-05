@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
 .search-container {
   max-width: 800px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -13,21 +15,24 @@
   width: 75%;
   padding: 16px;
   border: 0;
-  border-bottom: 1px solid cornflowerblue;
+  border-bottom: 1px solid #37003C;
+  font-family: 'Quicksand', sans-serif;
   font-weight: bold;
 }
 
 .search-container > input:focus {
   outline: 0;
-  border-bottom: 2px solid cornflowerblue;
+  border-bottom: 2px solid #37003C;
 }
 
 .search-container > input:focus::placeholder {
+  font-family: 'Quicksand', sans-serif;
   font-weight: bold;
 }
 
 .search-container > input::placeholder {
-  color: cornflowerblue;
+  color: #37003C;
+  font-family: 'Quicksand', sans-serif;
   font-weight: normal;
 }
 
@@ -36,10 +41,18 @@
   cursor: pointer;
   margin-left: auto;
   padding: 16px;
-  background-color: cornflowerblue;
+  background-color: #37003C;
   color: white;
   border: 0;
+  border-radius: 10px;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 0.96rem;
+  transition: 0.5s;
   text-transform: uppercase;
+}
+
+.search-container > button:hover {
+  font-size: 1.04rem;
 }
 
 @media screen and (max-width: 550px) {

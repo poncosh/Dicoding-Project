@@ -1,43 +1,68 @@
-import DataSource from "../data/data-source.js";
+import clubs from '../data/clubs.js';
+import '../component/club-item.js';
 
-const main = () => {
-  const searchElement = document.querySelector('#searchElement');
-  const buttonSearchElement = document.querySelector('#searchButtonElement');
-  const clubListElement = document.querySelector('#clubList');
+class DataSource {
+  constructor() {
+    this.promise = null;
+  }
 
-  const onButtonSearchClicked = () => {
-    DataSource.searchClub(searchElement.value)
-      .then(renderResult)
-      .catch(fallbackResult);
-// const onButtonSearchClicked = async () => {
-//   try {
-//     const result = await DataSource.searchClub(searchElement.value);
-//     renderResult(result);
-//   } catch (message) {
-//     fallbackResult(message);
-//   }
-// };
+  static searchClub(keyword) {
+    this.promise = new Promise((onSuccess, onFailed) => {
+      const filteredClubs = clubs.filter(club => club.name.toUpperCase().includes(keyword.toUpperCase()));
+  
+    if (filteredClubs.length) {
+      onSuccess(filteredClubs);
+    } else {
+      onFailed(`${keyword} is not found`);
+    }
+    })
+
+    return this.promise;
   };
+}
 
-  const renderResult = results => {
-    clubListElement.innerHTML = '';
-    results.forEach(club => {
-      const {name, fanArt, description} = club;
+class ClubList extends HTMLElement {
+  set clubs(clubs) {
+      this._clubs = clubs;
+      this.main();
+  }
+      
+  main() {
+      const searchElement = document.querySelector('#searchElement');
+      const buttonSearchElement = document.querySelector('#searchButtonElement');
+    
+      const onButtonSearchClicked = async () => {
+        try {
+          const result = await DataSource.searchClub(searchElement.value);
+          renderResult(result);
+        } catch (message) {
+          fallbackResult(message);
+        }
+      };
+    
+      const renderResult = results => {
+          this.innerHTML = ''
+          results.forEach(club => {
+              const clubItemElement = document.createElement('club-item');
 
-      const clubElement = document.createElement('div');
-      clubElement.setAttribute('class', 'club');
+              clubItemElement.club = club;
 
-      clubElement.innerHTML = `<img class="fan-art-club" src="${fanArt}" alt="Fan Art">\n <div class="club-info">\n <h2>${name}</h2>\n <p>${description}</p></div>`;
-      clubListElement.appendChild(clubElement);
-    });
+              this.appendChild(clubItemElement);
+          })
+      }
+    
+      const fallbackResult = message => {
+          this.innerHTML = `<h2 class="placeholder">${message}</h2>`
+      };
+    
+      buttonSearchElement.addEventListener('click', onButtonSearchClicked);
+      searchElement.addEventListener('keyup', function(event) {
+        event.preventDefault();
+        if (event.keyCode === 13) {
+          buttonSearchElement.click(onButtonSearchClicked);
+        };
+      })
   };
+}
 
-  const fallbackResult = message => {
-    clubListElement.innerHTML = '';
-    clubListElement.innerHTML += '<h2 class="placeholder">' + message + '</h2>';
-  };
-
-  buttonSearchElement.addEventListener('click', onButtonSearchClicked);
-};
-
-export default main;
+customElements.define('club-list', ClubList);

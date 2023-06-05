@@ -1,7 +1,12 @@
-.app-bar {
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+app-bar {
+  display: block;
   padding: 16px;
   width: 100%;
-  background-color: cornflowerblue;
-  color: white;
+  background-image: linear-gradient(to bottom right, #02F7C2, #5c81f0);
+  color: #360D3A;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  text-align: center;
+  font-family: 'Inter', sans-serif;
 }
