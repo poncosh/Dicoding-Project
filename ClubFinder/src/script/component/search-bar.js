@@ -99,12 +99,13 @@ class SearchBar extends HTMLElement {
         </div>
       `;
         
-        const searchButton = this._shadowRoot.querySelector('#searchButtonElement')
+        const searchButton = this._shadowRoot.querySelector('#searchButtonElement');
+
         searchButton.addEventListener('click', this._clickEvent);
         this._shadowRoot.querySelector('#searchElement').addEventListener("keyup", function(event) {
             event.preventDefault();
             if (event.keyCode === 13) {
-                searchButton.addEventListener('click', this._enterEvent);
+                searchButton.click(this._clickEvent);
             }
         })
     }

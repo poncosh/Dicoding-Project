@@ -13,12 +13,12 @@ class ClubItem extends HTMLElement {
       this._shadowRoot.innerHTML = `
         <style>
             club-item {
-                margin: 32px 20px 10px 20px;
+                margin-top: 32px 20px 10px 20px;
                 overflow: hidden;
             }
             
             .fan-art-club {
-                margin: 80px 20px 0 46px;
+                margin: 80px 20px 0 20px;
                 height: 40%;
                 width: 90%;
                 max-height: 500px;

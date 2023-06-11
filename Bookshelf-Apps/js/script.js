@@ -304,7 +304,7 @@ document.addEventListener(RENDER_BOOKS, function () {
         }
     }
 });
-
+/*
 document.addEventListener(RENDER_BOOKS, function () {
     const uncompleteBOOKSList = document.getElementById('incompleteBookshelfList');
     const completedBOOKSList = document.getElementById('completeBookshelfList');
@@ -321,3 +321,4 @@ document.addEventListener(RENDER_BOOKS, function () {
         }
     }
 });
+*/
