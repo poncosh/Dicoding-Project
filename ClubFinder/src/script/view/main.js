@@ -7,6 +7,7 @@ const main = () => {
   const clubListElement = document.querySelector('club-list');
  
   const onButtonSearchClicked = async () => {
+    
     try {
       const result = await DataSource.searchClub(searchElement.value);
       renderResult(result);

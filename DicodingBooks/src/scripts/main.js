@@ -1,113 +1,86 @@
-function generateBookshelfObject(id, title, author) {
-  return {
-    id,
-    title,
-    author
-  }
-}
+// function generateBookshelfObject(id, title, author) {
+//   return {
+//     id,
+//     title,
+//     author
+//   }
+// }
 
 function main() {
   const baseUrl = 'https://books-api.dicoding.dev';
-
+ 
   const getBook = () => {
-    // tuliskan kode di sini!
-    const xhr = new XMLHttpRequest();
-
-    xhr.onload = function () {
-      const responseJson = JSON.parse(this.responseText);
-
-      if (responseJson.error) {
-        showResponseMessage(responseJson.message);
-      } else {
-        renderAllBooks(responseJson.books);
-      }
-    };
-
-    xhr.onerror = function () {
-      showResponseMessage();
-    }
-
-    xhr.open('GET', `${baseUrl}/list`);
-
-    xhr.send();
+    // membuat instance dari XMLHttpRequest
+    fetch(`${baseUrl}/list`, {
+      method: 'GET'
+    }).then(response => {
+      return response.json();
+    })
+      .then(responseJson => {
+        if (responseJson.error) {
+          showResponseMessage(responseJson.message);
+        } else {
+          renderAllBooks(responseJson.books);
+        }
+      })
+      .catch(error => {
+        showResponseMessage(error);
+      })
   };
 
   const insertBook = (book) => {
-    // tuliskan kode di sini!
-    const xhr = new XMLHttpRequest();
-
-    xhr.onload = function () {
-      const responseJson = JSON.parse(this.responseText);
+    fetch(`${baseUrl}/list`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Auth-Token': '12345'
+      },
+      body: JSON.stringify(book)
+    }).then(response => {
+      return response.json();
+    }).then(responseJson => {
       showResponseMessage(responseJson.message);
       getBook();
-    };
-
-    xhr.onerror = function () {
-      showResponseMessage();
-    };
-
-    xhr.open('POST', `${baseUrl}/add`);
-
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.setRequestHeader('X-Auth-Token', '12345');
-
-    xhr.send(JSON.stringify(book));
+    }).catch(error => {
+      showResponseMessage(error);
+    })
   };
-
-
+ 
   const updateBook = (book) => {
-    // tuliskan kode di sini!
-    const xhr = new XMLHttpRequest();
-
-    xhr.onload = function () {
-      const responseJson = JSON.parse(this.responseText);
+    fetch(`${baseUrl}/edit/${book.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Auth-Token': '12345'
+      },
+      body: JSON.stringify(book)
+    }).then(response => {
+      return response.json();
+    }).then(responseJson => {
       showResponseMessage(responseJson.message);
       getBook();
-    }
-
-    xhr.onerror = function () {
-      showResponseMessage();
-    };
-
-    xhr.open('PUT', `${baseUrl}/edit/${book.id}`);
-
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.setRequestHeader('X-Auth-Token', '12345');
-
-    xhr.send(JSON.stringify(book));
+    }).catch(error => {
+      showResponseMessage(error);
+    })
   };
-
-
+ 
   const removeBook = (bookId) => {
-    // tuliskan kode di sini!
-    const xhr = new XMLHttpRequest();
-
-    xhr.onload = function () {
-      const responseJson = JSON.parse(this.responseText);
+    fetch(`${baseUrl}/delete/${bookId}`, {
+      method: 'DELETE',
+      headers: {
+        'X-Auth-Token': '12345'
+      }
+    }).then(response => {
+      return response.json();
+    }).then(responseJson => {
       showResponseMessage(responseJson.message);
       getBook();
-    }
-
-    xhr.onerror = function () {
-      showResponseMessage();
-    };
-
-    xhr.open('DELETE', `${baseUrl}/delete/${bookId}`);
-
-    xhr.setRequestHeader('X-Auth-Token', '12345');
-
-    xhr.send();
+    }).catch(error => {
+      showResponseMessage(error);
+    })
   };
-
-
-  
-  
-  
-  
-  /*
-      jangan ubah kode di bawah ini ya!
-  */
-
+ 
+  // .....
   const renderAllBooks = (books) => {
     const listBookElement = document.querySelector('#listBook');
     listBookElement.innerHTML = '';
@@ -170,5 +143,17 @@ function main() {
     getBook();
   });
 }
+
+
+  
+  
+  
+  
+  /*
+      jangan ubah kode di bawah ini ya!
+  */
+
+  
+
 
 export default main;
